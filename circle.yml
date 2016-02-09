@@ -1,0 +1,13 @@
+machine:
+  timezone: America/Los_Angeles
+
+dependencies:
+  pre:
+    - go get -v github.com/spf13/hugo
+
+deployment:
+  master:
+    branch: master
+    commands:
+      - cd $HOME/$CIRCLE_PROJECT_REPONAME && make build
+      - turbolift -u $RAXUSER -a $RAXAPIKEY --os-rax-auth $RAXREGION upload -s $HOME/$CIRCLE_PROJECT_REPONAME/public -c $CONTAINER;
